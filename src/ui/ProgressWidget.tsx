@@ -5,9 +5,11 @@ import { getLevel, getLevelThreshold, getNextLevelThreshold, formatProgressBar }
 
 interface ProgressWidgetProps {
   progress: ProgressData;
+  isPageCompleted: boolean;
+  onFinish: () => Promise<void>;
 }
 
-export function ProgressWidget({ progress }: ProgressWidgetProps) {
+export function ProgressWidget({ progress, isPageCompleted, onFinish }: ProgressWidgetProps) {
   const [collapsed, setCollapsed] = useState(false);
   const level = getLevel(progress.xp);
   const nextThreshold = getNextLevelThreshold(level);
@@ -52,6 +54,17 @@ export function ProgressWidget({ progress }: ProgressWidgetProps) {
         ) : (
           <div class="aralxp-bar">MAX</div>
         )}
+        <div class="aralxp-finish-btn-wrapper">
+          <button
+            class={`aralxp-finish-btn${isPageCompleted ? ' completed' : ''}`}
+            disabled={isPageCompleted}
+            onClick={isPageCompleted ? undefined : onFinish}
+            aria-label={isPageCompleted ? 'Completed' : 'Finish Chapter'}
+          >
+            <span>{isPageCompleted ? '✓ Done' : 'Finish Chapter'}</span>
+            {!isPageCompleted && <span class="aralxp-xp-label">+50 XP</span>}
+          </button>
+        </div>
       </div>
     </div>
   );
