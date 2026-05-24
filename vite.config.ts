@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     preact(),
     webExtension({
-      manifest: require('./manifest.json')
+      manifest: './manifest.json'
     })
   ],
   build: {
