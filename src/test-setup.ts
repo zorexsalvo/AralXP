@@ -1,4 +1,7 @@
-import { vi, beforeEach } from 'vitest'
+import { vi, beforeEach, expect } from 'vitest'
+import * as matchers from '@testing-library/jest-dom/matchers'
+
+expect.extend(matchers)
 
 let storageData: Record<string, unknown> = {}
 
