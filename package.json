@@ -1,0 +1,30 @@
+{
+  "name": "aralxp",
+  "version": "0.1.0",
+  "description": "AralXP Browser Extension",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.8.2",
+    "@testing-library/preact": "^3.2.3",
+    "@testing-library/user-event": "^14.5.1",
+    "@types/chrome": "^0.0.268",
+    "@types/node": "^20.12.12",
+    "@vitest/coverage-v8": "^1.6.0",
+    "@vitest/ui": "^1.6.0",
+    "jsdom": "^24.0.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
+    "vite-plugin-web-extension": "^4.5.1",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "preact": "^10.21.0"
+  }
+}
