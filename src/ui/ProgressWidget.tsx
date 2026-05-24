@@ -7,9 +7,11 @@ interface ProgressWidgetProps {
   progress: ProgressData;
   isPageCompleted: boolean;
   onFinish: () => Promise<void>;
+  hasChapterInfo: boolean;
+  xpAmount: number;
 }
 
-export function ProgressWidget({ progress, isPageCompleted, onFinish }: ProgressWidgetProps) {
+export function ProgressWidget({ progress, isPageCompleted, onFinish, hasChapterInfo, xpAmount }: ProgressWidgetProps) {
   const [collapsed, setCollapsed] = useState(false);
   const level = getLevel(progress.xp);
   const nextThreshold = getNextLevelThreshold(level);
@@ -54,17 +56,19 @@ export function ProgressWidget({ progress, isPageCompleted, onFinish }: Progress
         ) : (
           <div class="aralxp-bar">MAX</div>
         )}
-        <div class="aralxp-finish-btn-wrapper">
-          <button
-            class={`aralxp-finish-btn${isPageCompleted ? ' completed' : ''}`}
-            disabled={isPageCompleted}
-            onClick={isPageCompleted ? undefined : onFinish}
-            aria-label={isPageCompleted ? 'Completed' : 'Finish Chapter'}
-          >
-            <span>{isPageCompleted ? '✓ Done' : 'Finish Chapter'}</span>
-            {!isPageCompleted && <span class="aralxp-xp-label">+50 XP</span>}
-          </button>
-        </div>
+        {hasChapterInfo && (
+          <div class="aralxp-finish-btn-wrapper">
+            <button
+              class={`aralxp-finish-btn${isPageCompleted ? ' completed' : ''}`}
+              disabled={isPageCompleted}
+              onClick={isPageCompleted ? undefined : onFinish}
+              aria-label={isPageCompleted ? 'Completed' : 'Finish Chapter'}
+            >
+              <span>{isPageCompleted ? '✓ Done' : 'Finish Chapter'}</span>
+              {!isPageCompleted && <span class="aralxp-xp-label">+{xpAmount} XP</span>}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

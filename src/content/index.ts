@@ -1,6 +1,7 @@
 import { render, h } from 'preact';
 import { isMkDocsPage } from '../utils/mkdocs';
 import { getPageKey } from '../utils/url';
+import { getChapterInfo } from '../utils/chapterInfo';
 import { loadProgress, markComplete } from '../storage';
 import { ProgressWidget } from '../ui/ProgressWidget';
 import { WIDGET_STYLES, FINISH_BUTTON_STYLES } from '../ui/styles';
@@ -41,12 +42,15 @@ async function init(): Promise<void> {
   document.body.appendChild(widgetMount);
 
   function renderAll(data: ProgressData): void {
+    const chapterInfo = getChapterInfo();
     render(
       h(ProgressWidget, {
         progress: data,
         isPageCompleted: !!data.completed_pages[pageKey],
+        hasChapterInfo: chapterInfo.hasChapterInfo,
+        xpAmount: chapterInfo.xp,
         onFinish: async () => {
-          const updated = await markComplete(data, pageKey);
+          const updated = await markComplete(data, pageKey, chapterInfo.xp);
           renderAll(updated);
         },
       }),

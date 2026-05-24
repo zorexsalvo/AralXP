@@ -27,19 +27,20 @@ export async function saveProgress(data: ProgressData): Promise<void> {
 
 export async function markComplete(
   current: ProgressData,
-  pageKey: string
+  pageKey: string,
+  xpAmount: number = 50
 ): Promise<ProgressData> {
   if (current.completed_pages[pageKey]) {
     return current;
   }
 
   const updated: ProgressData = {
-    xp: current.xp + 50,
+    xp: current.xp + xpAmount,
     completed_pages: {
       ...current.completed_pages,
       [pageKey]: {
         completed_at: new Date().toISOString(),
-        xp: 50,
+        xp: xpAmount,
       },
     },
   };
