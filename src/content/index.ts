@@ -74,8 +74,33 @@ async function handleNavigation(): Promise<void> {
   await init();
 }
 
+let lastPathname = window.location.pathname;
+
+async function checkNavigation(): Promise<void> {
+  const currentPathname = window.location.pathname;
+  if (currentPathname !== lastPathname) {
+    lastPathname = currentPathname;
+    await handleNavigation();
+  }
+}
+
 init().catch(() => { /* fail silently */ });
 
 window.addEventListener('popstate', () => {
   handleNavigation().catch(() => { /* fail silently */ });
+});
+
+window.addEventListener('hashchange', () => {
+  checkNavigation().catch(() => { /* fail silently */ });
+});
+
+// Detect AJAX-style navigation in Material for MkDocs
+// Check for URL changes every 500ms, useful for SPA frameworks
+const navigationCheckInterval = setInterval(() => {
+  checkNavigation().catch(() => { /* fail silently */ });
+}, 500);
+
+// Stop checking when tab is unloaded
+window.addEventListener('beforeunload', () => {
+  clearInterval(navigationCheckInterval);
 });
